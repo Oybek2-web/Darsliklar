@@ -35,3 +35,5 @@ def fanlar_delete(request, id):
 def darslik_kirish(request, id):
     darslik = Darsliklar.objects.all(fan__id=id)
     return render(request, 'darsliklar/darsliklar_list.html', {'darslik':darslik})
+
+

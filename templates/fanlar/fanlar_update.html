@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Fanni Tahrirlash{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto">
+    <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+            <span class="bg-yellow-100 text-yellow-600 p-3 rounded-xl">✏️</span>
+            Fanni Tahrirlash
+        </h1>
+        <form method="POST" class="space-y-5">
+            {% csrf_token %}
+            {% for field in form %}
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ field.errors.0 }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <div class="flex gap-3 pt-4">
+                <button type="submit"
+                    class="flex-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition">
+                    💾 Yangilash
+                </button>
+                <a href="{% url 'fanlar_list' %}"
+                    class="flex-1 bg-gray-200 text-gray-700 py-3 rounded-xl font-semibold text-center hover:bg-gray-300 transition">
+                    Ortga
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    input, select, textarea {
+        @apply w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}Fanlar Ro'yxati{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="text-center mb-12">
+    <h1 class="text-5xl font-extrabold text-gray-800 mb-3">
+        🎓 <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Fanlar</span>
+    </h1>
+    <p class="text-gray-500 text-lg">O'zingizga kerakli fanni tanlang</p>
+</div>
+
+<!-- Action Button -->
+<div class="flex justify-end mb-8">
+    <a href="{% url 'fanlar_create' %}"
+        class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-xl hover:shadow-xl transition-all duration-300 flex items-center gap-2 font-semibold hover:scale-105">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+        </svg>
+        Yangi Fan Qo'shish
+    </a>
+</div>
+
+<!-- Fanlar Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for fan in fanlar %}
+    <div class="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 group hover:-translate-y-2">
+
+        <!-- Gradient fon -->
+        <div class="relative h-48 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center">
+            <span class="text-white text-7xl opacity-80">📚</span>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+            <h2 class="absolute bottom-4 left-4 text-white text-2xl font-bold drop-shadow-lg">{{ fan.title }}</h2>
+        </div>
+
+        <!-- Kontent -->
+        <div class="p-6">
+            <!-- Narx va Sana -->
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-3xl font-bold text-indigo-600">{{ fan.price|default:"0" }} so'm</span>
+                <span class="text-sm text-gray-400">{{ fan.created_at|date:"d.m.Y" }}</span>
+            </div>
+
+            <!-- Tugmalar -->
+            <div class="space-y-2">
+                <a href="{% url 'darsliklar_list' fan.id %}"
+                    class="block w-full text-center bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
+                    📖 Darsliklarni Ko'rish →
+                </a>
+
+                <div class="flex gap-2 pt-2">
+                    <a href="{% url 'fanlar_update' fan.id %}"
+                        class="flex-1 text-center bg-yellow-100 text-yellow-700 py-2 rounded-lg hover:bg-yellow-200 transition text-sm font-semibold">
+                        ✏️ Tahrirlash
+                    </a>
+                    <a href="{% url 'fanlar_delete' fan.id %}"
+                        onclick="return confirm('Rostdan o\'chirmoqchimisiz?')"
+                        class="flex-1 text-center bg-red-100 text-red-600 py-2 rounded-lg hover:bg-red-200 transition text-sm font-semibold">
+                        🗑️ O'chirish
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-span-full text-center py-20">
+        <div class="inline-block bg-gray-100 rounded-full p-8 mb-6">
+            <span class="text-8xl">📚</span>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-700 mb-2">Fanlar topilmadi</h3>
+        <p class="text-gray-500 mb-6">Hozircha hech qanday fan qo'shilmagan.</p>
+        <a href="{% url 'fanlar_create' %}"
+            class="inline-block bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition">
+            ➕ Yangi Fan Qo'shish
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
