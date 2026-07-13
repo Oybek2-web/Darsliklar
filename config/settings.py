@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'darsliklar',
     'fanlar',
+    'accounts',
 ]
 
 MIDDLEWARE = [

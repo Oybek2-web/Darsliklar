@@ -13,7 +13,8 @@ def fanlar_create(request):
         if form.is_valid():
             form.save()
             return redirect('fanlar_list')
-    form = FanlarForms()
+    else:
+        form = FanlarForms()
     return render(request, 'fanlar/fanlar_create.html', {'form':form})
 
 def fanlar_update(request, id):
@@ -27,10 +28,10 @@ def fanlar_update(request, id):
     return render(request, 'fanlar/fanlar_update.html', {'form':form})
 
 def fanlar_delete(request, id):
-    fanlar = get_object_or_404(id=id)
+    fanlar = get_object_or_404(Fanlar, id=id)
     fanlar.delete()
     return redirect('fanlar_list')
 
 def darslik_kirish(request, id):
-    darslik = Darsliklar.objects.all()
+    darslik = Darsliklar.objects.all(fan__id=id)
     return render(request, 'darsliklar/darsliklar_list.html', {'darslik':darslik})

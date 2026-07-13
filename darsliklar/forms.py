@@ -4,10 +4,4 @@ from .models import Darsliklar
 class DarsliklarForms(forms.Form):
     class Meta:
         model = Darsliklar
-        fields = [
-            'image',
-            'video',
-            'pdf',
-            'mavzu',
-            'malumotlar'
-        ]
+        fields = '__all__'

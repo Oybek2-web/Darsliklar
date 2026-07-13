@@ -4,6 +4,4 @@ from .models import Fanlar
 class FanlarForms(forms.Form):
     class Meta:
         model = Fanlar
-        fields = [
-            'title'
-        ]
+        fields = '__all__'
