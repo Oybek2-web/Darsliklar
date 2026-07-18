@@ -4,76 +4,66 @@
 <div class="container mt-5">
     <h2 class="mb-4 text-center">Mavjud Fanlar (Kurslar)</h2>
 
-    <!-- Xabarlarni ko'rsatish (masalan: "Muvaffaqiyatli sotib olindi") -->
     {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        {% endfor %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
     {% endif %}
 
     <div class="row">
         {% for fan in fanlar %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">{{ fan.title }}</h5>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ fan.title }}</h5>
 
-                        <!-- Narxni ko'rsatish qismi -->
-                        <p class="card-text mt-2">
-                            {% if fan.price and fan.price > 0 %}
-                                <span class="badge bg-primary fs-6">Narxi: {{ fan.price }} so'm</span>
-                            {% else %}
-                                <span class="badge bg-success fs-6">Bepul</span>
-                            {% endif %}
-                        </p>
+                    <!-- Narxni ko'rsatish qismi -->
+                    <p class="card-text mt-2">
+                        {% if fan.price and fan.price > 0 %}
+                        <span class="badge bg-primary fs-6">Narxi: {{ fan.price }} so'm</span>
+                        {% else %}
+                        <span class="badge bg-success fs-6">Bepul</span>
+                        {% endif %}
+                    </p>
 
-                        <!-- Tugmalar logikasi (Eng muhim qism) -->
-                        <div class="mt-auto">
-                            {% if user.is_authenticated %}
-                                <!-- 1. Foydalanuvchi tizimga kirgan -->
+                    <div class="mt-auto">
+                        {% if user.is_authenticated %}
 
-                                {% if fan.price and fan.price > 0 %}
-                                    <!-- Pullik fan -->
-                                    {% if fan.id in purchased_fan_ids %}
-                                        <!-- Agar foydalanuvchi bu fanni allaqachon sotib olgan bo'lsa -->
-                                        <a href="{% url 'fanlar:darsliklar_kirish' fan.id %}" class="btn btn-success w-100">
-                                            📚 Darslikka kirish
-                                        </a>
-                                    {% else %}
-                                        <!-- Agar hali sotib olmagan bo'lsa -->
-                                        <a href="{% url 'fanlar:fan_sotib_olish' fan.id %}" class="btn btn-primary w-100">
-                                            🛒 Sotib olish
-                                        </a>
-                                    {% endif %}
-                                {% else %}
-                                    <!-- 2. Bepul fanlar uchun -->
-                                    <a href="{% url 'fanlar:darsliklar_kirish' fan.id %}" class="btn btn-success w-100">
-                                        📚 Darslikka kirish (Bepul)
-                                    </a>
-                                {% endif %}
+                        {% if fan.price and fan.price > 0 %}
+                        {% if fan.id in purchased_fan_ids %}
+                        <a href="{% url 'fanlar:darsliklar_kirish' fan.id %}" class="btn btn-success w-100">
+                            📚 Darslikka kirish
+                        </a>
+                        {% else %}
+                        <a href="{% url 'fanlar:fan_sotib_olish' fan.id %}" class="btn btn-primary w-100">
+                            🛒 Sotib olish
+                        </a>
+                        {% endif %}
+                        {% else %}
+                        <a href="{% url 'fanlar:darsliklar_kirish' fan.id %}" class="btn btn-success w-100">
+                            📚 Darslikka kirish (Bepul)
+                        </a>
+                        {% endif %}
 
-                            {% else %}
-                                <!-- 3. Foydalanuvchi tizimga kirmagan bo'lsa -->
-                                <!-- Eslatma: 'login' o'rniga sizning login URL namingizni yozing (masalan: 'users:login') -->
-                                <a href="{% url 'login' %}" class="btn btn-warning w-100">
-                                    🔐 Sotib olish uchun tizimga kiring
-                                </a>
-                            {% endif %}
-                        </div>
+                        {% else %}
+                        <a href="{% url 'accounts:login' %}" class="btn btn-warning w-100">
+                            🔐 Sotib olish uchun tizimga kiring
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
+        </div>
 
         {% empty %}
-            <!-- Agar bazada hech qanday fan bo'lmasa -->
-            <div class="col-12">
-                <div class="alert alert-info text-center">
-                    Hozircha hech qanday fanlar mavjud emas.
-                </div>
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                Hozircha hech qanday fanlar mavjud emas.
             </div>
+        </div>
         {% endfor %}
     </div>
 </div>

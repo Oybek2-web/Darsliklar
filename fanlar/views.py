@@ -53,10 +53,8 @@ def fanlar_delete(request, id):
 
 @login_required
 def fan_sotib_olish(request, id):
-    """Fanni sotib olish logikasi (Hozircha test uchun avtomatik tasdiqlaydi)"""
     fan = get_object_or_404(Fanlar, id=id)
 
-    # Agar fan bepul bo'lsa, to'g'ridan-to'g'ri darslikka yo'naltiramiz
     if not fan.price or fan.price == 0:
         return redirect('fanlar:darsliklar_kirish', id=fan.id)
 

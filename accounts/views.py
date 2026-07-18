@@ -1,10 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from accounts.forms import UserRegisterForm
+from django.contrib.auth.decorators import login_required  # Shuni qo'shing
 from django.contrib.auth.models import User
-from accounts.utils import login_required, send_reset_password_email
+
+# accounts.utils dan faqat send_reset_password_email ni qoldiring
+from accounts.utils import send_reset_password_email
+from accounts.forms import UserRegisterForm, ForgotPasswordForm
 import random
+
 
 
 # REGISTER
@@ -49,17 +53,6 @@ def logout_user(request):
     logout(request)
     return redirect('accounts:login')
 
-
-# def verify_otp(request):
-#     if request.method == "POST":
-#         user_code = request.POST.get("code")
-#         real_code = request.session.get('reset_code')
-#
-#         if user_code == real_code:
-#             return redirect('accounts:reset_password')
-#         else:
-#             return render(request, "accounts/password_reset_done.html", {"error": "Wrong OTP"})
-#     return render(request, "registration/password_reset_done.html")
 
 def verify_otp(request):
     if request.method == "POST":

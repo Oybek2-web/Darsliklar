@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow">
+            <div class="card-body p-4 text-center">
+                <h3 class="mb-4">Tasdiqlash kodi</h3>
+                <p class="text-muted">Emailingizga yuborilgan 6 xonali kodni kiriting.</p>
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="mb-4">
+                        <input type="text" name="otp" class="form-control form-control-lg text-center" placeholder="000000" maxlength="6" required style="letter-spacing: 5px; font-size: 24px;">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Tasdiqlash</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
