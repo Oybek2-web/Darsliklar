@@ -1,4 +1,7 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
+
+from fanlar.models import SotibOlinganFan
 from .models import Darsliklar
 from .forms import DarsliklarForms
 
@@ -39,6 +42,18 @@ def darslik_delete(request, id):
         return redirect('fanlar:darsliklar_kirish', id=fan_id)
     return redirect('fanlar:fanlar_list')
 
+
+@login_required
 def darslik_detail(request, id):
-    detail = Darsliklar.objects.filter(id=id)
-    return render(request, 'darsliklar/darslik_detail.html', {'detail':detail})
+    detail = get_object_or_404(Darsliklar, id=id)
+    fan = detail.fan
+
+    if fan:
+        is_purchased = SotibOlinganFan.objects.filter(user=request.user, fan=fan, tolov_holati=True).exists()
+        is_free = not fan.price or fan.price == 0
+
+        if not is_free and not is_purchased:
+            messages.error(request, "Ushbu darslikni ko'rish uchun avval fanni sotib olishingiz kerak.")
+            return redirect('fanlar:fanlar_list')
+
+    return render(request, 'darsliklar/darslik_detail.html', {'detail': detail})
